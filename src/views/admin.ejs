@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/x-icon">
+    <title>Panel de control</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: firebrick;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            background-color: aquamarine;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #00b3b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        #alertBox {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #333; /* Fondo oscuro */
+            color: white; /* Texto blanco */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            text-align: center;
+            width: 300px; /* Ancho fijo */
+            font-size: 18px;
+        }
+
+        #closeAlert {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 20px;
+            color: white;
+            background: none;
+            border: none;
+        }
+
+    #closeAlert:hover {
+        color: red; /* Cambiar color al pasar el mouse */
+    }
+
+    #logoutButton {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        background-color: #f44336; /* Rojo */
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    #logoutButton:hover {
+        background-color: #d32f2f; /* Rojo más oscuro */
+    }
+
+    .search-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px 0;
+    }
+
+    #searchInput {
+        width: 300px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        margin-right: 10px;
+        transition: all 0.3s ease;
+    }
+
+    #searchInput:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        outline: none;
+    }
+
+    #searchButton {
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+    #searchButton:hover {
+        background-color: #0056b3;
+    }
+
+    .user-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        margin-top: 20px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .user-card p {
+        margin: 5px 0;
+        font-size: 16px;
+        color: #333;
+    }
+
+    .user-card img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 10px;
+        border: 2px solid #007bff;
+        align-self: center;
+    }
+
+    .user-card button {
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+    }   
+
+    .user-card button:hover {
+        background-color: #0056b3;
+    }
+
+    .user-card .delete-button {
+        background-color: #f44336;
+    }
+
+    .user-card .delete-button:hover {
+        background-color: #d32f2f;
+    }
+
+    .user-details {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .user-row {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .user-row p {
+        margin: 0;
+        font-size: 16px;
+        color: #333;
+        flex: 1;
+    }
+
+    .user-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .post-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        margin-top: 20px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }    
+
+    .post-card p {
+        margin: 5px 0;
+        font-size: 16px;
+        color: #333;
+    }
+
+    .post-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    .post-card button {
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+    }
+
+    .post-card button:hover {
+        background-color: #0056b3;
+    }
+
+    .post-card .delete-button {
+        background-color: #f44336;
+    }
+
+    .post-card .delete-button:hover {
+        background-color: #d32f2f;
+    }
+
+    .comments-section {
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #f1f1f1;
+        border-radius: 5px;
+    }
+
+    .comments-list {
+        margin-top: 10px;
+    }
+
+    .comment-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        padding: 5px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .comment-item p {
+        margin: 0;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .comment-item button {
+        padding: 5px 10px;
+        background-color: #f44336;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 12px;
+        transition: background-color 0.3s ease;
+    }
+
+    .comment-item button:hover {
+        background-color: #d32f2f;
+    }
+
+    .hidden-user {
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+    }
+
+    .hidden-user p {
+        color: #721c24;
+    }
+
+    .hidden-post {
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+    }
+
+    .hidden-post p {
+        color: #721c24;
+    }
+
+    .hidden-comment {
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+    }
+
+    .hidden-comment p {
+        color: #721c24;
+    }
+    
+    </style>
+  </head>
+  <body>
+    <header>
+        <h1>Panel de control del Administrador</h1>
+        <button id="logoutButton" onclick="window.location.href='/logout'">Cerrar sesión</button>
+    </header>
+    <div class="container">
+        <div id="alertBox">
+            <button id="closeAlert">&times;</button>
+            <p id="alertMessage"></p>
+        </div>
+
+        <h3>Buscar usuarios</h3>
+        <div class="search-container">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Buscar usuario por nombre de usuario..."
+                oninput="handleSearchInput()"
+            />
+            <button id="searchButton" onclick="searchUser()">Buscar</button>
+        </div>
+        <div id="searchResult"></div>
+        </div>
+    </div>
+    <script>
+        // Mostrar aviso en pantalla
+        function showAlert(message) {
+            const alertBox = document.getElementById('alertBox');
+            const alertMessage = document.getElementById('alertMessage');
+            const closeAlert = document.getElementById('closeAlert');
+
+            alertMessage.textContent = message;
+            alertBox.style.display = 'block';
+
+            closeAlert.onclick = () => {
+                alertBox.style.display = 'none';
+            };
+        }        
+
+    // Buscar usuario por username
+    function handleSearchInput() {
+    const searchInput = document.getElementById('searchInput');
+    const searchResult = document.getElementById('searchResult');
+
+    if (searchInput.value.trim() === '') {
+        searchResult.innerHTML = ''; // Limpia los resultados si el campo está vacío
+    }
+}
+
+// Funcion para buscar usuario
+function searchUser() {
+    const searchInput = document.getElementById('searchInput').value.trim();
+    const searchResult = document.getElementById('searchResult');
+
+    if (searchInput === '') {
+        showAlert('Por favor, ingresa un nombre de usuario para buscar.');
+        return;
+    }
+
+    searchResult.innerHTML = '<p>Buscando usuario...</p>'; // Muestra un mensaje de búsqueda
+
+    fetch(`/admin/users/search/all?username=${encodeURIComponent(searchInput)}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Usuario no encontrado');
+            }
+            return response.json();
+        })
+        .then(user => {
+            if (user) {
+                searchResult.innerHTML = `
+                    <div class="user-card ${user.oculto ? 'hidden-user' : ''}">
+                        ${user.foto_perfil_base64 ? `<img src="data:image/jpeg;base64,${user.foto_perfil_base64}" alt="Foto de perfil">` : ''}
+                        <div class="user-details">
+                            <div class="user-row">
+                                <p><strong>Nombre:</strong> ${user.nombre || 'No especificado'}</p>
+                                <p><strong>Apellido:</strong> ${user.apellido || 'No especificado'}</p>
+                            </div>
+                            <div class="user-row">
+                                <p><strong>Usuario:</strong> ${user.username || 'No especificado'}</p>
+                                <p><strong>Rol:</strong> ${user.role || 'No especificado'}</p>
+                            </div>
+                            <div class="user-row">
+                                <p><strong>Fecha de nacimiento:</strong> ${user.fecha_nacimiento || 'No especificada'}</p>
+                                <p><strong>Teléfono:</strong> ${user.telefono || 'No especificado'}</p>
+                            </div>
+                            <div class="user-row">
+                                <p><strong>Descripción:</strong> ${user.descripcion || 'No especificada'}</p>
+                            </div>
+                            <div class="user-row">
+                                <p><strong>Twitter:</strong> ${user.twitter || 'No especificado'}</p>
+                                <p><strong>Instagram:</strong> ${user.instagram || 'No especificado'}</p>
+                            </div>
+                            <div class="user-row">
+                                <p><strong>LinkedIn:</strong> ${user.linkedin || 'No especificado'}</p>
+                                <p><strong>GitHub:</strong> ${user.github || 'No especificado'}</p>
+                            </div>
+                            <div class="user-row">
+                                <p><strong>Estado:</strong> ${user.oculto ? 'Oculto' : 'Visible'}</p>
+                            </div>
+                        </div>
+                        <div class="user-actions">
+                            <button onclick="viewPosts(${user.id})">Ver publicaciones</button>
+                            <button class="delete-button" onclick="toggleUserVisibility(${user.id}, ${user.oculto})">
+                                ${user.oculto ? 'Hacer Visible' : 'Ocultar'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                searchResult.innerHTML = '<p>No se encontró ningún usuario con ese nombre de usuario.</p>';
+            }
+        })
+        .catch(err => {
+            console.error('Error al buscar usuario:', err);
+            searchResult.innerHTML = '<p>No se encontró ningún usuario con ese nombre de usuario.</p>';
+        });
+}
+    
+
+    let currentUserId = null; // Variable global para almacenar el userId actual
+
+    // Mostrar/ocultar usuario 
+function toggleUserVisibility(userId, isHidden) {
+    const method = isHidden ? 'PUT' : 'DELETE';
+    const url = isHidden ? `/admin/users/${userId}/visible` : `/admin/users/${userId}`;
+
+    fetch(url, { method: method })
+        .then(response => {
+            if (response.ok) {
+                showAlert(isHidden ? 'Usuario hecho visible correctamente.' : 'Usuario ocultado correctamente.');
+                // Recargar la búsqueda del usuario después de actualizar el estado
+                searchUser();
+            } else {
+                throw new Error('Error al actualizar el estado del usuario.');
+            }
+        })
+        .catch(err => {
+            console.error('Error al actualizar el estado del usuario:', err);
+            showAlert('Error al actualizar el estado del usuario.');
+        });
+}
+
+// Ver las publicaciones del usuario
+function viewPosts(userId) {
+    currentUserId = userId; // Guarda el userId actual
+    fetch(`/admin/users/${userId}/posts/all`)
+        .then(response => response.json())
+        .then(posts => {
+            const searchResult = document.getElementById('searchResult');
+            searchResult.innerHTML = ''; // Limpia el contenido antes de agregar publicaciones
+
+            if (posts.length === 0) {
+                searchResult.innerHTML = '<p>No hay publicaciones para este usuario.</p>';
+                return;
+            }
+
+            let postsHtml = '<h4>Publicaciones:</h4>';
+            posts.forEach(post => {
+                postsHtml += `
+                    <div class="post-card ${post.oculto ? 'hidden-post' : ''}">
+                        <p><strong>${post.title}</strong></p>
+                        <p>Likes: ${post.likes}</p>
+                        <p>Estado: ${post.oculto ? 'Oculta' : 'Visible'}</p>
+                        <div class="post-actions">
+                            <!-- Cantidad de likes -->
+                            <input
+                                type="number"
+                                id="likeInput-${post.id}"
+                                placeholder="Cantidad de likes"
+                                style="width: 100px; padding: 5px; margin-right: 10px;"
+                            />
+                            <!-- Botón para actualizar los likes -->
+                            <button onclick="updateLikes(${post.id})">Actualizar Likes</button>
+                            <button class="delete-button" onclick="togglePostVisibility(${post.id}, ${post.oculto})">
+                                ${post.oculto ? 'Hacer Visible' : 'Ocultar'}
+                            </button>
+                        </div>
+                        <!-- Contenedor para los comentarios -->
+                        <div id="comments-${post.id}" class="comments-section">
+                            <button onclick="loadComments(${post.id})">Ver Comentarios</button>
+                        </div>
+                    </div>
+                `;
+            });
+            searchResult.innerHTML = postsHtml; // Actualiza el contenido
+        })
+        .catch(err => {
+            console.error('Error al obtener publicaciones:', err);
+            showAlert('Error al obtener publicaciones.');
+        });
+}
+
+// Cargar comentarios de una publicación
+function loadComments(postId) {
+    fetch(`/admin/posts/${postId}/comments/all`)
+        .then(response => response.json())
+        .then(comments => {
+            const commentsSection = document.getElementById(`comments-${postId}`);
+            commentsSection.innerHTML = ''; // Limpia los comentarios antes de agregarlos
+
+            if (comments.length === 0) {
+                commentsSection.innerHTML = '<p>No hay comentarios para esta publicación.</p>';
+                return;
+            }
+
+            let commentsHtml = '<h5>Comentarios:</h5>';
+            comments.forEach(comment => {
+                commentsHtml += `
+                    <div class="comment-item ${comment.oculto ? 'hidden-comment' : ''}">
+                        <p><strong>${comment.commenter_username}:</strong> ${comment.comment_content}</p>
+                        <p>Estado: ${comment.oculto ? 'Oculto' : 'Visible'}</p>
+                        <button class="delete-button" onclick="toggleCommentVisibility(${comment.comment_id}, ${comment.oculto}, ${postId})">
+                            ${comment.oculto ? 'Hacer Visible' : 'Ocultar'}
+                        </button>
+                    </div>
+                `;
+            });
+            commentsSection.innerHTML = commentsHtml; // Actualiza el contenido
+        })
+        .catch(err => {
+            console.error('Error al cargar comentarios:', err);
+            showAlert('Error al cargar comentarios.');
+        });
+}
+
+    // Mostrar/ocultar comentarios
+    function toggleCommentVisibility(commentId, isHidden, postId) {
+        const method = isHidden ? 'PUT' : 'DELETE';
+        const url = isHidden ? `/admin/comments/${commentId}/visible` : `/admin/comments/${commentId}`;
+
+        fetch(url, { method: method })
+            .then(response => {
+                if (response.ok) {
+                    showAlert(isHidden ? 'Comentario hecho visible correctamente.' : 'Comentario ocultado correctamente.');
+                    // Recargar los comentarios después de actualizar el estado
+                    loadComments(postId);
+                } else {
+                    throw new Error('Error al actualizar el estado del comentario.');
+                }
+            })
+            .catch(err => {
+                console.error('Error al cargar comentarios:', err);
+                showAlert('Error al cargar comentarios.');
+            });
+    }
+
+    // Eliminar publicación (ocultar)
+    function togglePostVisibility(postId, isHidden) {
+        const method = isHidden ? 'PUT' : 'DELETE';
+        const url = isHidden ? `/admin/posts/${postId}/visible` : `/admin/posts/${postId}`;
+
+        fetch(url, { method: method })
+            .then(response => {
+                if (response.ok) {
+                    showAlert(isHidden ? 'Publicación hecha visible correctamente.' : 'Publicación ocultada correctamente.');
+                    // Recargar las publicaciones después de actualizar el estado
+                    viewPosts(currentUserId);
+                } else {
+                    showAlert('Error al actualizar el estado de la publicación.');
+                }
+            })
+            .catch(err => {
+                console.error('Error al actualizar el estado de la publicación:', err);
+                showAlert('Error al actualizar el estado de la publicación.');
+            });
+    }
+    
+
+    // Actualizar likes de una publicación
+    function updateLikes(postId) {
+        const likeInput = document.getElementById(`likeInput-${postId}`);
+        const likeValue = parseInt(likeInput.value, 10); // Convertir el valor a número
+
+        if (isNaN(likeValue)) {
+            showAlert('Por favor, introduce un número válido de likes.');
+            return;
+        }
+
+        // Enviar la cantidad de likes al servidor
+        fetch(`/admin/posts/${postId}/like`, {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify({ likes: likeValue }),
+        })
+            .then(response => {
+                if (response.ok) {
+                    showAlert('Likes actualizados correctamente.');
+                    viewPosts(currentUserId); // Recargar las publicaciones
+                } else {
+                    showAlert('Error al actualizar los likes.');
+                }
+            })
+            .catch(err => {
+                console.error('Error al actualizar likes:', err);
+                showAlert('Error al actualizar likes.');
+            });
+    }
+
+    // Eliminar usuario
+    function deleteUser(userId) {
+    fetch(`/admin/users/${userId}`, { method: 'DELETE' })
+        .then(response => {
+            if (response.ok) {
+                showAlert('Usuario eliminado correctamente.');
+                document.getElementById('searchResult').innerHTML = ''; // Limpia el resultado
+            } else {
+                showAlert('Error al eliminar el usuario.');
+            }
+        })
+        .catch(err => {
+            console.error('Error al eliminar usuario:', err);
+            showAlert('Error al eliminar usuario.');
+        });
+    }
+
+    </script>
+  </body>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Mobirise v5.9.17, mobirise.com">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/x-icon">
+  <meta name="description" content="">
+  <meta charset="UTF-8">
+  <title>Casual Frydays</title>
+  <style>
+      @import url('https://fonts.googleapis.com/css2?family=PT+Serif&display=swap');
+
+
+
+
+      body {
+          background: linear-gradient(#ffefb5, #fcdb3a);
+          font-family: "PT Serif", serif;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          margin: 0;
+          padding: 20px;
+      }
+      .container {
+          background: white;
+          padding: 40px;
+          border-radius: 20px;
+          box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+          text-align: center;
+          width: 800px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+      }
+      .left-section, .right-section {
+          flex: 1;
+          text-align: center;
+      }
+      .welcome {
+          font-size: 30px;
+          font-weight: bold;
+      }
+      .subtitle {
+          font-size: 18px;
+          color: #555;
+      }
+      .input-box {
+          width: 80%;
+          padding: 10px;
+          margin: 10px 0;
+          border: 2px solid #ccc;
+          border-radius: 10px;
+          font-size: 16px;
+          text-align: center;
+      }
+      .btn {
+          background: #fffb99;
+          border: none;
+          padding: 10px 20px;
+          font-size: 16px;
+          border-radius: 10px;
+          cursor: pointer;
+          margin-top: 10px;
+          width: 85%;
+          font-weight: bold;
+          text-align: center;
+      }
+      .btn:hover {
+          background: #f9d423;
+      }
+      .logo-img {
+          width: 180px;
+          height: auto;
+      }
+      .logo-big {
+          width: 350px;  /* Tamaño normal */
+          max-width: 100%;
+          height: auto;
+      }
+      .btn a {
+          text-decoration: none;
+          color: black;
+          display: block;
+      }
+      form {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+      }
+      .recovery-link {
+          margin-top: 10px;
+          font-size: 14px;
+      }
+
+
+
+
+      /* Estilos responsivos */
+      @media (max-width: 850px) {
+          .container {
+              width: 95%;
+              flex-direction: column;
+              padding: 25px;
+          }
+          .left-section, .right-section {
+              width: 100%;
+          }
+          .logo-big {
+              width: 40vw;  /* Se ajusta dinámicamente */
+              max-width: 280px;  /* No será más grande que esto */
+          }
+          .welcome {
+              font-size: 24px;
+          }
+          .subtitle {
+              font-size: 16px;
+          }
+          .input-box {
+              width: 90%;
+          }
+      }
+
+
+
+
+      @media (max-width: 480px) {
+          .container {
+              padding: 20px;
+          }
+          .logo-img {
+              width: 140px;
+          }
+          .logo-big {
+              width: 50vw;  /* Más pequeño en móviles */
+              max-width: 220px;
+          }
+          .welcome {
+              font-size: 22px;
+          }
+          .subtitle {
+              font-size: 14px;
+          }
+          .btn {
+              font-size: 14px;
+              padding: 8px 15px;
+          }
+          .input-box {
+              font-size: 14px;
+              padding: 8px;
+          }
+      }
+  </style>
+</head>
+<body>
+  <div class="container">
+      <div class="left-section">
+          <img src="/assets/images/logo.png" alt="Freidora" class="logo-img">
+          <p class="welcome">¡Bienvenidos a Casual Frydays!</p>
+          <p class="subtitle">Porque el trabajo no es solo trabajo.<br> Comparte tus mejores momentos.</p>
+          <button class="btn"><a href="/registro">Regístrate</a></button>
+      </div>
+      <div class="right-section">
+        <img src="/assets/images/logo4.png" alt="Freidora2" class="logo-big">
+       
+        <!-- Formulario de Login corregido -->
+        <form action="/login" method="POST">
+          <input class="input-box" type="text" id="username" name="username" placeholder="Usuario" required>
+          <input class="input-box" type="password" id="contraseña" name="contraseña" placeholder="Contraseña" required>
+          <button class="btn" type="submit">LOGIN</button>
+        </form>
+      </div>
+  </div>
+  <!-- Aviso de Cookies en Index -->
+<div id="cookie-consent" style="position: fixed; bottom: 0; width: 100%; background-color: #000; color: #fff; text-align: center; padding: 10px; z-index: 1000; display: none;">
+    Utilizamos cookies para mejorar tu experiencia en nuestro sitio web.
+    <button onclick="acceptCookies()" style="margin-left: 10px; padding: 5px 10px; background-color: #007bff; color: #fff; border: none; border-radius: 5px;">Aceptar</button>
+</div>
+
+
+<script>
+function checkCookieConsent() {
+    return localStorage.getItem('cookieConsent') === 'true';
+}
+
+
+function acceptCookies() {
+    localStorage.setItem('cookieConsent', 'true');
+    document.getElementById('cookie-consent').style.display = 'none';
+}
+
+
+window.onload = function() {
+    if (!checkCookieConsent()) {
+        document.getElementById('cookie-consent').style.display = 'block';
+    }
+};
+</script>
+
+  <script src="/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/smoothscroll/smooth-scroll.js"></script>
+  <script src="/assets/ytplayer/index.js"></script>
+  <script src="/assets/dropdown/js/navbar-dropdown.js"></script>
+  <script src="/assets/theme/js/script.js"></script>  
+  <script src="script.js" type="text/javascript"></script>
+
+
+
+
+</body>
+</html>
+
+
+

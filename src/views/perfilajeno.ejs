@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de <%= usuario.nombre %></title>
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/dropdown/css/style.css">
+    <link rel="stylesheet" href="/assets/socicon/css/styles.css">
+    <link rel="stylesheet" href="/assets/mobirise/css/mbr-additional.css">
+    <script src="/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/theme/js/script.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/x-icon">
+    <style>
+        body {
+            min-height: 100vh;
+            font-family: "PT Serif", serif;
+            color: #333;
+            background-color: #f7f7f7;
+            margin: 0;
+        }
+   
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 8px 15px rgba(240, 225, 10, 0.438);
+        }
+   
+        .profile-container h1 {
+            color: #ffcc00;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+   
+        .img-wrapper img {
+            border-radius: 50%;
+            border: 4px solid #ffcc00;
+            width: 240px;
+            height: 240px;
+            object-fit: cover;
+            align-items: center;
+            transition: transform 0.3s ease; /* Transición para el agrandado */
+        }
+   
+        .img-wrapper img:hover {
+            transform: scale(1.1); /* Aumentar el tamaño de la imagen al pasar el ratón */
+        }
+   
+        .description-section p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #555;
+            margin-top: 15px;
+        }
+   
+        .description-section b {
+            color: #ffcc00;
+        }
+   
+        .sections-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 30px;
+        }
+   
+        .profile-section {
+            width: 48%;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #fafafa;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+   
+        .profile-section:hover {
+            background-color: #fffae6;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+   
+        /* Añadir borde amarillo a las secciones de Redes sociales e Información personal */
+        .profile-section p {
+            color: #555;
+        }
+   
+        .profile-section p b {
+            color: #ffcc00;
+        }
+   
+        .profile-section a {
+            color: #ffcc00;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+   
+        .profile-section a:hover {
+            color: #ffaa00;
+        }
+   
+        .profile-section {
+            border: 2px solid #ffcc00; /* Borde amarillo */
+        }
+   
+        .profile-section button {
+            padding: 12px;
+            background-color: #ffcc00;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+   
+        .profile-section button:hover {
+            background-color: #ffaa00;
+        }
+   
+        .follow-section {
+            margin-top: 20px;
+        }
+   
+        .chat-icon {
+            font-size: 24px;
+            color: #ffcc00;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+   
+        .chat-icon:hover {
+            color: #ffaa00;
+        }
+   
+        .profile-section p b:hover {
+            color: #ffaa00;
+        }
+   
+        .follow-section button {
+            background-color: #ffcc00;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+   
+        .follow-section button:hover {
+            background-color: #ffaa00;
+        }
+   
+        .profile-section p b {
+            color: #ffcc00;
+            font-size: 1.2em;
+        }
+   
+        .profile-section p b:hover {
+            color: #ffaa00;
+        }
+       
+    </style>
+
+</head>
+<body>
+    <%- include("../routes/header.ejs") %>
+    <br>
+    <% if(estasbloqueado){ %>
+        <center>
+            <h1><%- usernamever %> te ha bloqueado</h1>
+            <img src="/assets/images/tristepatatas.png" style="height: 20vh; width: 20vh;"></img>
+        </center>
+    <% } else { %>
+    <section class="people07" id="people07-d">
+        <div class="profile-container">
+            <div class="img-wrapper">
+                <h1>Perfil de <%= usuario.nombre %></h1>
+                <% if (foto_perfil_base64 && foto_perfil_base64.trim() !== '') { %>
+                    <img src="data:image/jpeg;base64,<%= foto_perfil_base64 %>" alt="Foto de perfil">
+                <% } else { %>
+                    <img src="/assets/images/perfil2.png" alt="Foto de perfil por defecto">
+                <% } %>
+            </div>
+           
+
+
+            <div class="description-section">
+                <p><b>Descripción:</b> <%= usuario.descripcion || 'Sin descripción' %></p>
+            </div>
+            <a href="/chat/<%= usuario.id %>" class="chat-icon" title="Enviar mensaje">
+                <i class="fas fa-comment-dots"></i>
+            </a>
+
+
+            <div class="sections-container">
+                <div class="profile-section">
+                    <p><b>Redes sociales</b></p>
+                    <% if (usuario.twitter) { %>
+                        <p><i class="fab fa-twitter"></i> <a href="https://twitter.com/<%= usuario.twitter %>" target="_blank">Twitter</a></p>
+                    <% } %>
+                    <% if (usuario.instagram) { %>
+                        <p><i class="fab fa-instagram"></i> <a href="https://www.instagram.com/<%= usuario.instagram %>" target="_blank">Instagram</a></p>
+                    <% } %>
+                    <% if (usuario.linkedin) { %>
+                        <p><i class="fab fa-linkedin-in"></i> <a href="https://www.linkedin.com/in/<%= usuario.linkedin %>" target="_blank">LinkedIn</a></p>
+                    <% } %>
+                    <% if (usuario.github) { %>
+                        <p><i class="fab fa-github"></i> <a href="https://github.com/<%= usuario.github %>" target="_blank">GitHub</a></p>
+                    <% } %>
+                </div>
+
+
+
+
+                <div class="profile-section">
+                    <p><b>Información personal</b></p>
+                    <p>Nombre: <%= usuario.nombre %></p>
+                    <p>Apellido: <%= usuario.apellido %></p>
+                    <p>Fecha de Nacimiento: <%= usuario.fecha_nacimiento.toISOString().slice(0,10) %></p>
+                    <p>Teléfono: <%= usuario.telefono || 'No disponible' %></p>
+                </div>
+            </div>
+
+
+
+
+            <div class="follow-section">
+                <button class="seguir" id="<%= usuario.id %>" name="<%= userId %>">
+                    <% if (seguido) { %>
+                        <p>Dejar de seguir</p>
+                    <% } else { %>
+                        <p>Seguir</p>
+                    <% } %>
+                </button>
+            </div>
+
+
+
+
+            <div class="follow-section">
+                <button id="bloquear-btn" class="<%= bloqueado ? 'btn btn-warning btn-sm' : 'btn btn-danger btn-sm' %>">
+                    <i class="<%= bloqueado ? 'fas fa-unlock' : 'fas fa-ban' %>"></i>
+                    <%= bloqueado ? 'Desbloquear' : 'Bloquear' %>
+                </button>
+            </div>
+
+
+
+
+            <center>
+                <a style="color: #ffaa00;" href="/publicaciones/<%= usuario.username %>" >Publicaciones de <%= usuario.username %></a>
+            </center>
+        </div>    
+    </section>
+    <% } %>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('.seguir').forEach(button => {
+                button.addEventListener('click', async () => {
+                    const id_seguido = button.id;
+                    const id_usuario = button.name;
+
+
+
+
+                    const response = await fetch('/seguir', {
+                        method: 'POST',
+                        credentials: 'include',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ id_seguido, id_usuario })
+                    });
+
+
+
+
+                    const data = await response.json();
+
+
+
+
+                    if (response.ok) {
+                        button.innerHTML = data.text;
+                        document.getElementById(`seguidos_${id_seguido}`).innerText = "Seguidores: " + data.seguidores;
+                    } else {
+                        console.error('Error al procesar el follow:', data.error);
+                        alert("Hubo un error al intentar seguir al usuario. Intenta nuevamente.");
+                    }
+                });
+            });
+
+
+
+
+            const bloquearBtn = document.getElementById("bloquear-btn");
+
+
+
+
+            bloquearBtn.addEventListener("click", async () => {
+                const usuarioId = "<%= usuario.id %>";
+                const accion = bloquearBtn.classList.contains("btn-danger") ? "bloquear" : "desbloquear";
+
+
+
+
+                try {
+                    const response = await fetch(`/${accion}/${usuarioId}`, {
+                        method: "POST",
+                        credentials: "include",
+                    });
+
+
+
+
+                    if (response.ok) {
+                        if (accion === "bloquear") {
+                            bloquearBtn.classList.remove("btn-danger");
+                            bloquearBtn.classList.add("btn-warning");
+                            bloquearBtn.innerHTML = '<i class="fas fa-unlock"></i> Desbloquear';
+                        } else {
+                            bloquearBtn.classList.remove("btn-warning");
+                            bloquearBtn.classList.add("btn-danger");
+                            bloquearBtn.innerHTML = '<i class="fas fa-ban"></i> Bloquear';
+                        }
+                    } else {
+                        alert("Hubo un error al procesar la solicitud. Intenta nuevamente.");
+                    }
+                } catch (error) {
+                    console.error("Error al procesar la solicitud:", error);
+                    alert("Hubo un error al procesar la solicitud. Intenta nuevamente.");
+                }
+            });
+        });
+    </script>
+    <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/smoothscroll/smooth-scroll.js"></script>
+    <script src="assets/ytplayer/index.js"></script>
+    <script src="assets/dropdown/js/navbar-dropdown.js"></script>
+    <script src="assets/vimeoplayer/player.js"></script>
+    <script src="assets/masonry/masonry.pkgd.min.js"></script>
+    <script src="assets/imagesloaded/imagesloaded.pkgd.min.js"></script>
+    <script src="assets/theme/js/script.js"></script>
+    <%- include("../routes/footer.ejs") %>
+</body>
+</html>

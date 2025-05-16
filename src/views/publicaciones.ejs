@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publicaciones</title>
+    <link rel="stylesheet" href="/assets/web/assets/mobirise-icons2/mobirise2.css">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="/assets/dropdown/css/style.css">
+    <link rel="stylesheet" href="/assets/socicon/css/styles.css">
+    <link rel="stylesheet" href="/assets/theme/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;700&display=swap&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;700&display=swap&display=swap"></noscript>
+    <link rel="preload" as="style" href="/assets/mobirise/css/mbr-additional.css?v=Wf9Ojj"><link rel="stylesheet" href="/assets/mobirise/css/mbr-additional.css?v=Wf9Ojj" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+    <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/x-icon">
+   
+    <style>
+        .overlay {
+            z-index: 1000000;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+   
+        .overlay img {
+            width: auto;
+            max-width: 90vw;
+            max-height: 80%;
+            border-radius: 10px;
+        }
+   
+        .carousel-inner img {
+            width: 100% !important;
+            height: auto;
+            max-height: 400px;
+            object-fit: contain;
+        }
+   
+        .carousel-control-prev, .carousel-control-next {
+            width: 40px;
+            height: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.3); /* Fondo sutil para visibilidad */
+            border-radius: 50%;
+            filter: invert(100%);
+            z-index: 1;
+        }
+   
+        .carousel-control-prev {
+            left: 10px; /* ✅ Ahora dentro del carrusel */
+        }
+   
+        .carousel-control-next {
+            right: 10px;
+        }
+   
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+   
+        .colfoot {
+            flex: 1;
+        }
+   
+        .container-publi {
+            width: 100%;
+            padding: 0 15px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+
+
+
+        .card {
+            border: 1px solid #fcdb3a !important;
+            border-radius: 10px !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            background-color: #fff2c1;
+        }
+
+
+
+
+        .card-title {
+            color: #f0c800 !important;
+        }
+
+
+
+
+        .card-title a {
+            color: #f0c800 !important;
+        }  
+
+
+
+
+   
+        .card-container {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+   
+        .card-img-top {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+   
+        .fecha-comentario {
+            font-size: 12px;
+            color: rgb(238, 216, 216);
+            margin-left: 10px;
+            display: inline-block;
+        }
+   
+        .formulario-publicacion {
+            margin-top: 150px;
+            text-align: center;
+            padding: 20px;
+            background-color: #ffefb5;
+            border: 1px solid #fcdb3a;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+   
+        .formulario-publicacion textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #f7cd00;
+            margin-bottom: 10px;
+            resize: none;
+            background-color: #ffeb86;
+            border-color: #fcdb3a;
+        }
+   
+        .formulario-publicacion button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ffe771;
+            color: rgb(0, 0, 0);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+   
+        .formulario-publicacion button:hover {
+            background-color: #ffed93;
+        }
+   
+        .header-spacing {
+            margin-top: 150px;
+        }
+   
+        .eliminar-publicacion {
+            margin-bottom: 10px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #dc3545;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+   
+        .eliminar-publicacion:hover {
+            background-color: #c82333;
+        }
+   
+        .ver-mas-link {
+            color: blue;
+            cursor: pointer;
+        }
+
+
+
+
+        .formulario-publicacion button.btn-primary {
+            background-color: #fcdb3a !important;
+            color: #000000 !important;
+        }
+
+
+
+
+        .formulario-publicacion button.btn-primary:hover {
+            background-color: #ffeb86 !important;
+        }
+
+
+
+
+        #file-upload-button {
+            background-color: #fcdb3a;
+            padding: 10px;
+            border: none;
+            color: #000;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+
+
+
+        .custom-file-upload {
+            display: inline-block;
+            background-color: #fcdb3a;
+            padding: 10px 20px;
+            border-radius: 20px;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+
+
+
+        .custom-file-upload:hover {
+            background-color: #ffeb86;
+        }
+
+
+
+
+        #misPublicaciones a.btn {
+            display: inline-block;
+            background-color: #ffd500 !important;
+            border-color: #e4be00 !important;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+
+
+
+        #misPublicaciones a.btn:hover {
+            background-color: #ffe254 !important;
+        }
+
+
+
+
+        .pregunta {
+            background-color: #ffeb86 !important;
+        }
+
+
+
+
+        .opciones {
+            background-color: #ffeb86 !important;
+        }
+
+
+
+
+    </style>
+   
+</head>
+<body>
+    <!-- Llamada al menu -->
+    <%- include("../routes/header.ejs") %>
+    <div class="header-spacing"></div>
+
+
+
+
+    <!-- Formulario para crear una nueva publicación -->
+    <% if (typeof tipo !== 'undefined' && tipo === 'publicaciones') { %>
+    <div class="formulario-publicacion" id="formularioPublicacion">
+        <form id="crear-publicacion-form">
+            <textarea id="contenido" name="contenido" placeholder="Escribe tu publicación aquí..." required></textarea>
+            <label for="imagenespubli" class="custom-file-upload">📷 Seleccionar imágenes</label>
+            <input type="file" id="imagenespubli" name="imagenespubli" accept="image/*" multiple style="display: none;">
+            <p id="contador-imagenes">0/4 imágenes seleccionadas</p>
+            <button type="submit" class="btn btn-primary">Crear Publicación</button>
+        </form>
+        <button onclick="toggleEncuestaForm()">➕ Crear encuesta</button>
+       
+        <div id="formEncuesta" style="display:none; margin-top: 20px;">
+            <form action="/guardar-encuesta" method="POST">
+                <label><b>Pregunta:</b></label><br>
+                <textarea name="contenido"  class="pregunta" required></textarea><br><br>
+       
+                <label><b>Opciones:</b></label><br>
+                <input type="text" name="opciones[]" placeholder="Opción 1" class="opciones" required><br>
+                <input type="text" name="opciones[]" placeholder="Opción 2" class="opciones" required><br>
+                <input type="text" name="opciones[]" placeholder="Opción 3" class="opciones"><br>
+                <input type="text" name="opciones[]" placeholder="Opción 4" class="opciones"><br><br>
+       
+                <button type="submit">Enviar encuesta</button>
+            </form>
+        </div>  
+    </div>
+        <!-- Botón para ver las publicaciones del usuario -->
+        <div class="text-center mt-4" id="misPublicaciones">
+            <a href="/publicaciones?tipo=guardados" class="btn btn-secondary">Ver elementos guardados</a>
+        </div>
+
+
+
+
+
+
+
+
+    <% } %>
+    <script>
+        document.getElementById('imagenespubli').addEventListener('change', function(event) {
+            const files = event.target.files;
+            if (files.length > 4) {
+                alert('Solo puedes subir un máximo de 4 imágenes.');
+                event.target.value = '';
+            } else {
+                document.getElementById('contador-imagenes').textContent = `${files.length}/4 imágenes seleccionadas`;
+            }
+        });
+    </script>
+
+
+
+
+    <script>
+        // Obtener los parámetros de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const tipo = urlParams.get('tipo'); // Obtener el valor de 'tipo'
+   
+        // Verificar si 'tipo' es igual a 'guardados'
+        if (tipo === 'guardados') {
+            // Si es 'guardados', ocultamos los elementos
+            document.getElementById('formularioPublicacion').style.display = 'none';
+            document.getElementById('misPublicaciones').style.display = 'none';
+        }
+    </script>
+<% if (resultado === 0) { %>
+    <p>No tenemos nada que Mostrar</p>
+<% } else if (publicaciones && publicaciones.length > 0 && resultado === 1) { %>
+    <% publicaciones.forEach(function(publicacion) { %>
+        <% if (typeof tipo !== 'undefined' && tipo === 'mis_publicaciones') { %>
+            <button class="eliminar-publicacion" data-id="<%= publicacion.publicacion_id %>">Eliminar</button>
+        <% } %>
+
+
+
+
+            <div class="container container-publi">
+                <div class="card-container">
+                  <img src="data:image/jpeg;base64,<%= publicacion.foto_perfil %>" alt="Foto de perfil de <%= publicacion.nombre %>" class="card-img-top">
+                  <div class="card rounded-0" style="flex: 1; border: 1px solid #8ec823; border-radius: 0 !important;">
+
+
+
+
+                    <div class="card-body"  onclick="window.location.href='/publicaciones/<%= publicacion.username %>/<%= publicacion.publicacion_id %>'"
+                        style="cursor: pointer;">
+                      <h5 class="card-title"><%= publicacion.nombre %>&nbsp;&nbsp;
+                        <% if (typeof tipo !== 'undefined' && tipo === 'mis_publicaciones') { %>
+                            <a href="/perfil">@<%= publicacion.username%></a>&nbsp;&nbsp;&nbsp;&nbsp;<%= publicacion.fecha_publi%></h5>
+                            <% } else{%>
+                            <a href="/perfilajeno/<%=publicacion.username%>">@<%= publicacion.username%></a>&nbsp;&nbsp;&nbsp;&nbsp;<%= publicacion.fecha_publi%></h5>
+                            <% }%>
+                      <p class="card-text"><%- publicacion.contenido %></p>
+                    </div>
+                    <% if (publicacion.es_encuesta) { %>
+                        <div class="encuesta">
+                            <h4>Encuesta:</h4>
+                            <form class="form-voto" data-publicacion="<%= publicacion.publicacion_id %>">
+                                <% publicacion.opciones.forEach(op => { %>
+                                    <button type="button" onclick="votar('<%= op.opcion_id %>', this)">
+                                        <%= op.texto_opcion %> (<%= op.votos %> votos)
+                                    </button><br>
+                                <% }); %>
+                            </form>
+                        </div>
+                    <% } %>
+                    <% if (publicacion.imagenes.length > 0) { %>
+                        <center>
+                            <div id="myCarouselElement<%= publicacion.publicacion_id%>" class="carousel slide" data-ride="carousel" data-interval="false" style="width: 100%; max-width: 500px; margin: auto;">
+                                <!-- Contenido del carrusel -->
+                                <div class="carousel-inner">
+                                    <% publicacion.imagenes.forEach((imagen, index) => { %>
+                                        <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+                                            <img id="img_<%= publicacion.publicacion_id %>_<%= index %>" class="d-block w-100" src="data:image/jpeg;base64, <%= imagen.imagen_base64 %>" alt="Imagen <%= index + 1 %>" style="width: 35%; cursor: pointer;">
+                                            <div id="overlay_<%= publicacion.publicacion_id %>_<%= index %>" class="overlay">
+                                                <img id="expandedImg_<%= publicacion.publicacion_id %>_<%= index %>" src="" alt="Imagen Ampliada">
+                                            </div>
+                                            <script>
+                                                document.getElementById("img_<%= publicacion.publicacion_id %>_<%= index %>").addEventListener("click", function() {
+                                                    const overlay = document.getElementById("overlay_<%= publicacion.publicacion_id %>_<%= index %>");
+                                                    const expandedImg = document.getElementById("expandedImg_<%= publicacion.publicacion_id %>_<%= index %>");
+                                                    expandedImg.src = this.src;
+                                                    overlay.style.display = "flex";
+                                                });
+                   
+                                                document.getElementById("overlay_<%= publicacion.publicacion_id %>_<%= index %>").addEventListener("click", function() {
+                                                    this.style.display = "none";
+                                                });
+                                            </script>
+                                        </div>
+                                    <% }) %>
+                                </div>
+                                <% if (publicacion.imagenes.length > 1) { %>
+                                <!-- Botones de navegación -->
+                                <a class="carousel-control-prev" href="javascript:void(0);" role="button" data-target="#myCarouselElement<%= publicacion.publicacion_id%>" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="javascript:void(0);" role="button" data-target="#myCarouselElement<%= publicacion.publicacion_id%>"  role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                                <% }%>
+                            </div>
+                        </center>
+                    <% } %>
+                   
+                    <hr style="width: 100%;">
+                    <div class="card-footer bg-transparent border-0" >
+                        <div class="like-section colfoot">
+                        <button class="like" id="<%= publicacion.publicacion_id %>" name="<%= userid %>">
+                            <% if (publicacion.dio_like) { %>
+                                <i class="fa-solid fa-thumbs-up fa-2x"></i>
+                            <% } else { %>
+                                <i class="fa-regular fa-thumbs-up fa-2x"></i>
+                            <% } %>
+                        </button>
+                        <span id="likes_<%= publicacion.publicacion_id %>"><%= publicacion.num_like %></span>
+                    </div>          
+                    <div class="save-section colfoot">
+                        <button class="guarda" id="<%= publicacion.publicacion_id %>" name="<%= userid %>">
+                            <% if (publicacion.loguardo) { %>
+                                <i class="fa-solid fa-bookmark fa-2x"></i>
+                            <% } else { %>
+                                <i class="fa-regular fa-bookmark fa-2x"></i>
+                            <% } %>
+                        </button>
+                        <span id="guardados_<%= publicacion.publicacion_id %>"><%= publicacion.num_guardado %></span>
+                    </div>                            
+                                                   
+                    <div class="comentarios colfoot">
+                        <i class="fa-solid fa-comment fa-2x"></i>
+                        <span id="guardados_<%= publicacion.publicacion_id %>"><%= publicacion.num_com %></span>
+                    </div>
+<script
+>$('#myCarouselElement<%= publicacion.publicacion_id%>').carousel({
+    interval: false
+  });
+    </script>
+
+
+
+
+</div>
+                </div>
+              </div>
+            </div>          
+           
+        <% }); %>
+    <% } %>
+    <div id="mensaje-sin-publicaciones" style="display: none; text-align: center; margin-top: 20px;">
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <p>Eliminaste tanto que te quedaste sin nada...</p>
+    </div>
+    <!-- Pie de página -->
+        <%- include("../routes/footer.ejs") %>
+
+
+
+
+    <!-- Scripts aquí... -->
+    <script src="/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/smoothscroll/smooth-scroll.js"></script>
+    <script src="/assets/ytplayer/index.js"></script>
+    <script src="/assets/dropdown/js/navbar-dropdown.js"></script>
+    <script src="/assets/vimeoplayer/player.js"></script>
+    <script src="/assets/masonry/masonry.pkgd.min.js"></script>
+    <script src="/assets/imagesloaded/imagesloaded.pkgd.min.js"></script>
+    <script src="/assets/theme/js/script.js"></script>
+
+
+
+
+    <script>
+                        function votar(opcion_id, button) {
+                fetch('/votar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ opcion_id })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('¡Voto registrado!');
+                        location.reload();
+                    } else {
+                        alert(data.error || 'Error al votar');
+                    }
+                });
+            }
+            function toggleEncuestaForm() {
+                 const form = document.getElementById('formEncuesta');
+                form.style.display = form.style.display === 'none' ? 'block' : 'none';
+                 }
+    </script>
+    <!-- Script para manejar la creación y eliminación de publicaciones -->
+    <script>
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("crear-publicacion-form").addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+
+
+
+        const formData = new FormData();
+        formData.append("contenido", document.getElementById("contenido").value);
+
+
+
+
+        const imagenes = document.getElementById("imagenespubli").files;
+        for (let img of imagenes) {
+            formData.append("imagenes", img); //Enviamos archivos como `multipart/form-data`
+        }
+
+
+
+
+        try {
+            const response = await fetch("/publicaciones", {
+                method: "POST",
+                body: formData //Enviamos `FormData`, no JSON
+            });
+
+
+
+
+            const result = await response.json();
+            if (response.ok) {
+                location.reload();
+            } else {
+                console.error("Error al crear publicación", result.error);
+            }
+        } catch (error) {
+            console.error("Error en la solicitud:", error);
+        }
+    });
+
+
+
+
+    // Validar y mostrar la cantidad de imágenes seleccionadas
+    document.getElementById("imagenespubli").addEventListener("change", function() {
+        const contador = document.getElementById("contador-imagenes");
+        contador.textContent = `${this.files.length}/4 imágenes seleccionadas`;
+
+
+
+
+        if (this.files.length > 4) {
+            alert("Solo puedes subir hasta 4 imágenes.");
+            this.value = ""; // Reseteamos el input si se pasan de 4 imágenes
+            contador.textContent = "0/4 imágenes seleccionadas";
+        }
+    });
+});
+
+
+
+
+    </script>
+      <script>
+            document.addEventListener("DOMContentLoaded", function() {
+        // Lógica para eliminar una publicación
+        document.querySelectorAll('.eliminar-publicacion').forEach(button => {
+            button.addEventListener('click', async function() {
+                const id = this.dataset.id;
+
+
+
+
+                const response = await fetch(`/publicaciones/${id}`, {
+                    method: 'DELETE'
+                });
+
+
+
+
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    console.error('Error al eliminar publicación');
+                }
+            });
+        });
+    });
+        </script>
+    <!-- Script para manejar los likes -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll('.like').forEach(button => {
+            button.addEventListener('click', async () => {
+                const id_publicacion = button.id; // Usamos el ID del botón como ID de la publicación
+                const id_usuario = button.name;
+                const response = await fetch('/like', {
+                    method: 'POST',
+                    credentials: 'include', // Esto envía cookies al servidor
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id_publicacion, id_usuario })
+                });
+
+
+
+
+                const data = await response.json();
+
+
+
+
+                if (response.ok) {
+                    // Actualizar el icono de "Me Gusta"
+                    button.innerHTML = data.text;
+
+
+
+
+                    // Actualizar el contador de likes
+                    document.getElementById(`likes_${id_publicacion}`).innerText = data.likes;
+                } else {
+                    console.error('Error al procesar el like:', data.error);
+                }
+            });
+        });
+    });
+    </script>
+
+
+
+
+    <!-- Script para manejar los elementos guardados -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Obtener 'tipo' desde la URL (query string)
+        const urlParams = new URLSearchParams(window.location.search);
+        const tipo = urlParams.get('tipo');  // Obtiene el valor de 'tipo'
+
+
+
+
+        document.querySelectorAll('.guarda').forEach(button => {
+            button.addEventListener('click', async () => {
+                const id_publicacion = button.id;
+                const id_usuario = button.name;
+
+
+
+
+                const response = await fetch('/elementoguardado', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id_publicacion, id_usuario })
+                });
+
+
+
+
+                const data = await response.json();
+
+
+
+
+                if (response.ok) {
+                    button.innerHTML = data.text;
+                    document.getElementById(`guardados_${id_publicacion}`).innerText = data.guardados2;
+
+
+
+
+                    // Eliminar la publicación si no está guardada y estamos en la página de guardados
+                    if (!data.esta_guardado && tipo === "guardados") {
+                        console.log(`Publicación ${id_publicacion} ya no está guardada. Eliminando...`);
+
+
+
+
+                        const publicacionElemento = document.getElementById(`publicacion-${id_publicacion}`);
+                        if (publicacionElemento) {
+                            publicacionElemento.remove();
+                            console.log("Publicación eliminada del DOM.");
+                        } else {
+                            console.warn("Elemento no encontrado en el DOM.");
+                        }
+
+
+
+
+                        // Verificar si ya no hay más publicaciones guardadas
+                        const publicacionesGuardadas = document.querySelectorAll('.guarda').length;
+                        if (publicacionesGuardadas === 0) {
+                            // Mostrar el mensaje de que ya no hay publicaciones guardadas
+                            const mensaje = document.getElementById("mensaje-sin-publicaciones");
+                            if (mensaje) {
+                                mensaje.style.display = 'block';
+                            }
+                        }
+                    }
+                } else {
+                    console.error('Error al procesar el guardado:', data.error);
+                }
+            });
+        });
+    });
+    </script>
+
+
+</body>
+</html>

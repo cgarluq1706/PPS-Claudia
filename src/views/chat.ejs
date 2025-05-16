@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat con <%= nombreUsuario %></title>
+    <link rel="stylesheet" href="/assets/web/assets/mobirise-icons2/mobirise2.css">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="/assets/dropdown/css/style.css">
+    <link rel="stylesheet" href="/assets/socicon/css/styles.css">
+    <link rel="stylesheet" href="/assets/theme/css/style.css">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;700&display=swap"></noscript>
+    <link rel="preload" as="style" href="/assets/mobirise/css/mbr-additional.css">
+    <link rel="stylesheet" href="/assets/mobirise/css/mbr-additional.css" type="text/css">
+    <link rel="stylesheet" href="/assets/theme/css/style.css">
+    <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/x-icon">
+   
+    <script src="/socket.io/socket.io.js"></script>
+    <!--background: linear-gradient(#ffefb5, #fcdb3a);-->
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    .chat-container {
+        max-width: 600px;
+        margin: 20px auto;
+        background: #ffefb5;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border: 1px solid #ffdd35;
+    }
+
+    .chat-box {
+        height: 400px;
+        overflow-y: auto;
+        border: 1px solid #ffdd35;
+        padding: 10px;
+        background: #ffeb86;
+    }
+
+    .message {
+        padding: 8px 12px;
+        margin: 5px 0;
+        border-radius: 5px;
+        max-width: 75%;
+    }
+
+    .message.sent {
+        background-color: #ffd500;
+        color: rgb(0, 0, 0);
+        text-align: right;
+        margin-left: auto;
+    }
+
+    .message.received {
+        background-color: #fff1aa;
+        text-align: left;
+    }
+
+    #messageInput{
+        background: #ffeb86;
+    }
+
+    .chat-input {
+        display: flex;
+        margin-top: 10px;
+    }
+
+    .chat-input input {
+        flex: 1;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ffdd35;
+    }
+
+    .chat-input button {
+        background-color: #ffd500;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+
+    .chat-input button:hover {
+        background-color: #eec600;
+    }
+    </style>
+</head>
+
+<body>
+    <%- include("../routes/header.ejs") %>
+    <div class="chat-container">
+        <h3  style="font-family: 'PT Serif', serif;">Chat con <%= nombreUsuario %></h3>
+
+
+
+
+        <div class="chat-box" id="chatBox">
+            <% messages.forEach((msg) => { %>
+                <div class="message <%= msg.emisor_id == sessionUserId ? 'sent' : 'received' %>">
+                    <strong><%= msg.emisor_id == sessionUserId ? 'Tú' : nombreUsuario %>:</strong>
+                    <%= msg.mensaje %> <br />
+                    <small><%= new Date(msg.fecha_envio).toLocaleString() %></small>
+                </div>
+            <% }); %>
+        </div>
+
+
+
+
+        <div class="chat-input">
+            <input id="messageInput" type="text" placeholder="Escribe un mensaje..." />
+            <input id="imageInput" type="file" accept="image/*" style="display: none;" />
+           
+            <button id="sendButton"><b>Enviar</b></button>
+        </div>
+    </div>
+
+
+
+
+    <div id="chatContainer"
+         data-session-user-id="<%= sessionUserId %>"
+         data-usuario-id="<%= usuarioId %>">
+    </div>
+
+
+
+
+    <script>
+    const socket = new WebSocket('ws://localhost:8080');
+
+
+
+
+    const chatBox = document.getElementById('chatBox');
+    const messageInput = document.getElementById('messageInput');
+    const sendButton = document.getElementById('sendButton');
+
+
+
+
+    const chatContainer = document.getElementById('chatContainer');
+    const emisor_id = chatContainer.getAttribute('data-session-user-id');
+    const receptor_id = chatContainer.getAttribute('data-usuario-id');
+
+
+
+
+    console.log('Emisor:', emisor_id, 'Receptor:', receptor_id);
+
+
+
+
+    // Confirmar conexión WebSocket
+    socket.onopen = () => {
+        console.log('Conectado a WebSocket');
+    };
+
+
+
+
+    // Función para formatear la fecha y la hora en formato numérico
+    function formatDateTime(timestamp) {
+        const fecha = new Date(timestamp);
+
+
+
+
+        // Extraer valores numéricos
+        const dia = fecha.getDate().toString().padStart(2, '0'); // 01-31
+        const mes = (fecha.getMonth() + 1).toString().padStart(2, '0'); // 01-12
+        const año = fecha.getFullYear(); // 2025
+        const hora = fecha.getHours().toString().padStart(2, '0'); // 00-23
+        const minutos = fecha.getMinutes().toString().padStart(2, '0'); // 00-59
+        const segundos = fecha.getSeconds().toString().padStart(2, '0'); // 00-59
+
+
+
+
+        return `${dia}/${mes}/${año} ${hora}:${minutos}:${segundos}`;
+    }
+
+
+
+
+    // Manejar mensajes recibidos
+    socket.onmessage = (event) => {
+        const msg = JSON.parse(event.data);
+        console.log('Mensaje recibido:', msg);
+
+
+
+
+        if (msg.error) {
+            console.error(msg.error);
+            return;
+        }
+
+
+
+
+        // Formatear fecha y hora
+        const fechaHora = formatDateTime(msg.timestamp);
+
+
+
+
+        // Crear el elemento del mensaje con la fecha y hora
+        const div = document.createElement('div');
+        div.classList.add('message', msg.emisorId == emisor_id ? 'sent' : 'received');
+        div.innerHTML = `<strong>${msg.emisorId == emisor_id ? 'Tú' : '<%= nombreUsuario %>'}:</strong>
+                         ${msg.contenido} <br />
+                         <small>${fechaHora}</small>`;
+
+
+
+
+        chatBox.appendChild(div);
+        chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll al último mensaje
+    };
+
+
+
+
+    // Manejar errores
+    socket.onerror = (error) => {
+        console.error('Error en WebSocket:', error);
+    };
+
+
+
+
+    // Enviar mensaje al presionar el botón
+    sendButton.addEventListener('click', () => {
+        const mensaje = messageInput.value.trim();
+        if (!mensaje) return;
+
+
+
+
+        console.log('Enviando mensaje:', mensaje);
+
+
+
+
+        const data = JSON.stringify({
+            emisorId: emisor_id,
+            receptorId: receptor_id,
+            contenido: mensaje
+        });
+
+
+
+
+        socket.send(data);
+        messageInput.value = '';
+    });
+
+
+
+
+        // Función para hacer scroll al final del chat
+        function scrollToBottom() {
+        const chatBox = document.getElementById('chatBox');
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+
+
+
+    // Llamar a la función cuando la página cargue
+    window.onload = () => {
+        scrollToBottom();
+    };
+
+
+
+
+    // Modifica la parte donde se recibe un mensaje para hacer scroll automáticamente
+    socket.onmessage = (event) => {
+        const msg = JSON.parse(event.data);
+        console.log('Mensaje recibido:', msg);
+
+
+
+
+        if (msg.error) {
+            console.error(msg.error);
+            return;
+        }
+
+
+
+
+        // Crear el elemento del mensaje
+        const div = document.createElement('div');
+        div.classList.add('message', msg.emisorId == emisor_id ? 'sent' : 'received');
+        div.innerHTML = `<strong>${msg.emisorId == emisor_id ? 'Tú' : 'Otro'}:</strong>
+                         ${msg.contenido} <br />
+                         <small>${formatDateTime(msg.timestamp)}</small>`;
+
+
+
+
+        chatBox.appendChild(div);
+       
+        // Hacer scroll hacia abajo después de agregar un nuevo mensaje
+        scrollToBottom();
+    };
+
+
+
+
+    // Manejar desconexión
+    socket.onclose = () => {
+        console.log('Desconectado de WebSocket');
+    };
+</script>
+
+
+
+
+<!-- Scripts -->
+<script src="/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/smoothscroll/smooth-scroll.js"></script>
+<script src="/assets/ytplayer/index.js"></script>
+<script src="/assets/dropdown/js/navbar-dropdown.js"></script>
+<script src="/assets/vimeoplayer/player.js"></script>
+<script src="/assets/masonry/masonry.pkgd.min.js"></script>
+<script src="/assets/imagesloaded/imagesloaded.pkgd.min.js"></script>
+<script src="/assets/theme/js/script.js"></script>
+    <%- include("../routes/footer.ejs") %>
+</body>
+</html>
