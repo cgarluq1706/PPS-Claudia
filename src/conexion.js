@@ -1,15 +1,15 @@
 const mysql = require('mysql2');
 require('dotenv').config();
 
-// Creamos un pool de conexiones
+// Creamos un pool de conexiones usando las variables de entorno correctas
 const pool = mysql.createPool({
-    host: process.env.MYSQLHOST || 'localhost',
-    port: process.env.MYSQLPORT || 3306,
-    user: process.env.MYSQLUSER || 'root',
-    password: process.env.MYSQLPASSWORD || 'admin',
-    database: process.env.MYSQLDATABASE || 'red_social',
+    host: process.env.DB_HOST || 'localhost',
+    port: process.env.DB_PORT || 3306,
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || 'admin',
+    database: process.env.DB_NAME || 'red_social',
     waitForConnections: true,
-    connectionLimit: 10,  // Puedes ajustar este número según lo que necesites
+    connectionLimit: 10,
     queueLimit: 0
 });
 
@@ -19,7 +19,7 @@ pool.getConnection((err, connection) => {
         console.error('Error al conectar con la base de datos:', err);
     } else {
         console.log('Conectado a la base de datos MySQL');
-        connection.release(); // liberamos la conexión para que vuelva al pool
+        connection.release();
     }
 });
 
