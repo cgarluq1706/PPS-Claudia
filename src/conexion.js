@@ -1,21 +1,24 @@
 const mysql = require('mysql');
 
-// MySQL Connection
+// Cargar las variables del archivo .env
 require('dotenv').config();
 
+// Crear la conexión usando variables de entorno
 const connection = mysql.createConnection({
-    host: 'localhost',
-    port: 3306,
-    user: 'root',
-    password: 'admin',
-    database: 'red_social',
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
 });
 
+// Conectar y mostrar mensaje
 connection.connect((err) => {
-    if (err) throw err;
-    console.log('Connected to MySQL database');
+    if (err) {
+        console.error('Error al conectar con la base de datos:', err);
+        return;
+    }
+    console.log('Conectado a la base de datos MySQL de Railway');
 });
-
-
 
 module.exports = connection;
