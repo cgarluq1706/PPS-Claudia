@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar Cuenta</title>
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/theme/css/style.css">
+    <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/x-icon">
+    <style>
+        body {
+            background-color: #ffefb5;
+            font-family: 'Inter Tight', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .delete-section {
+            background-color: #fde156;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            margin: auto;
+            transition: transform 0.3s ease-in-out;
+        }
+        .delete-section:hover {
+            transform: scale(1.02);
+        }
+        .delete-section h1 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .delete-section p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        .delete-section input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .delete-section button {
+            display: inline-block;
+            background-color: #333;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .delete-section button:hover {
+            background-color: #ffefb5;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="delete-section">
+        <h1>Eliminar Cuenta</h1>
+        <p>¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.</p>
+        <form action="/borrar" method="POST">
+            <input type="password" name="contraseña" placeholder="Ingresa tu contraseña" required>
+            <button type="submit">Confirmar</button>
+        </form>
+    </div>
+</body>
+</html>      

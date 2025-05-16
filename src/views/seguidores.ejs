@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguidores</title>
+    <link rel="stylesheet" href="/assets/web/assets/mobirise-icons2/mobirise2.css">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="/assets/dropdown/css/style.css">
+    <link rel="stylesheet" href="/assets/socicon/css/styles.css">
+    <link rel="stylesheet" href="/assets/theme/css/style.css">
+    <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;700&display=swap&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;700&display=swap&display=swap"></noscript>
+    <link rel="preload" as="style" href="/assets/mobirise/css/mbr-additional.css?v=Wf9Ojj"><link rel="stylesheet" href="/assets/mobirise/css/mbr-additional.css?v=Wf9Ojj" type="text/css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f5;
+            color: #000; /* Cambio a negro */
+        }
+
+
+        h1 {
+            text-align: center;
+            font-size: 3em; /* Aumenté el tamaño de la fuente */
+            margin-top: 50px;
+            color: #000; /* Cambio a negro */
+            font-weight: bold;
+        }
+
+
+        .user-list {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+
+        .user-item {
+            background-color: #fff;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 2px solid #fde156; /* Borde amarillo */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+
+        .user-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+
+        .user-item a {
+            text-decoration: none;
+            color: #000; /* Enlaces en negro */
+            font-weight: bold;
+            font-size: 1.2em; /* Aumenté el tamaño del nombre */
+            text-align: center;
+            display: block;
+        }
+
+
+        .user-item a:hover {
+            text-decoration: underline;
+            color: #f1c40f; /* Un toque de color en los enlaces al pasar el ratón */
+        }
+
+
+        .user-item p {
+            color: #333; /* Texto de la descripción en gris oscuro */
+            margin-top: 10px;
+            font-size: 1em;
+            text-align: center; /* Centré la descripción */
+        }
+
+
+        .header-spacing {
+            margin-top: 60px;
+        }
+
+
+        .dark-mode h1{
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Llamada al menu -->
+    <%- include("../routes/header.ejs") %>
+   
+    <div class="header-spacing"></div>
+   
+    <h1>Seguidores de <%= usernameperfil %></h1>
+
+
+    <div class="container">
+        <ul class="user-list">
+            <% seguidores.forEach(user => { %>
+                <li class="user-item">
+                    <a href="/perfilajeno/<%= user.username %>"><%= user.username %></a>
+                    <p><%= user.descripcion %></p>
+                </li>
+            <% }); %>
+        </ul>
+    </div>
+
+
+    <!-- Pie de página -->
+    <%- include("../routes/footer.ejs") %>
+
+
+    <!-- Scripts aquí... -->
+    <script src="/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/smoothscroll/smooth-scroll.js"></script>
+    <script src="/assets/ytplayer/index.js"></script>
+    <script src="/assets/dropdown/js/navbar-dropdown.js"></script>
+    <script src="/assets/vimeoplayer/player.js"></script>
+    <script src="/assets/masonry/masonry.pkgd.min.js"></script>
+    <script src="/assets/imagesloaded/imagesloaded.pkgd.min.js"></script>
+    <script src="/assets/theme/js/script.js"></script>
+
+
+</body>
+</html>
+
+
+
