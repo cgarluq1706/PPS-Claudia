@@ -1,7 +1,6 @@
 const mysql = require('mysql2');
 require('dotenv').config();
 
-// Creamos un pool de conexiones usando las variables de entorno correctas
 const pool = mysql.createPool({
     host: process.env.DB_HOST || 'localhost',
     port: process.env.DB_PORT || 3306,
@@ -13,7 +12,6 @@ const pool = mysql.createPool({
     queueLimit: 0
 });
 
-// Verificamos si la conexión funciona correctamente
 pool.getConnection((err, connection) => {
     if (err) {
         console.error('Error al conectar con la base de datos:', err);
@@ -21,6 +19,6 @@ pool.getConnection((err, connection) => {
         console.log('Conectado a la base de datos MySQL');
         connection.release();
     }
-});
+}); 
 
 module.exports = pool;
